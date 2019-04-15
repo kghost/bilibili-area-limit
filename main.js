@@ -1,12 +1,12 @@
 // ==UserScript==
-// @name         Bilibili 港澳台
-// @namespace    http://kghost.info/
-// @version      0.4
-// @description  Bilibili 港澳台, 解除区域限制
-// @author       zealot0630
-// @include      https://www.bilibili.com/*
-// @grant GM_setValue
-// @grant GM_getValue
+// @name               Bilibili 港澳台
+// @namespace          http://kghost.info/
+// @version            0.5
+// @description:       Remove area restriction
+// @description:zh-CN  解除区域限制
+// @supportURL         https://github.com/kghost/bilibili-area-limit
+// @author             zealot0630
+// @include            https://www.bilibili.com/*
 // @run-at document-start
 // ==/UserScript==
 
@@ -21,8 +21,8 @@ const url_replace_www_to = {
 
 const url_replace = /^https:\/\/api\.bilibili\.com\//;
 const url_replace_to = [
-  [/僅限.*港.*地區/, 'https://bilibili-api.kghost.info/'],
-  [/僅限.*台.*地區/, 'https://bilibili-tw-api.kghost.info/'],
+  [/僅.*港.*地區/, 'https://bilibili-api.kghost.info/'],
+  [/僅.*台.*地區/, 'https://bilibili-tw-api.kghost.info/'],
 ];
 
 (function (XMLHttpRequest) {
