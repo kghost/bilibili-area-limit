@@ -1,16 +1,20 @@
 // ==UserScript==
 // @name               Bilibili 港澳台
 // @namespace          http://kghost.info/
-// @version            0.5
+// @version            0.6
 // @description:       Remove area restriction
 // @description:zh-CN  解除区域限制
 // @supportURL         https://github.com/kghost/bilibili-area-limit
 // @author             zealot0630
 // @include            https://www.bilibili.com/*
 // @run-at document-start
+// @description Bilibili 港澳台, 解除区域限制
 // ==/UserScript==
 
-const url_status = /^https:\/\/bangumi\.bilibili\.com\/view\/web_api\/season\/user\/status\?.*/;
+const url_status = [
+  /^https:\/\/bangumi\.bilibili\.com\/view\/web_api\/season\/user\/status\?.*/,
+  /^https:\/\/api\.bilibili\.com\/pgc\/view\/web\/season\/user\/status\?.*/,
+];
 const url_play = /^https:\/\/api\.bilibili\.com\/pgc\/player\/web\/playurl\?.*/;
 
 const url_replace_www = /^https:\/\/www\.bilibili\.com\//;
@@ -165,7 +169,11 @@ const url_replace_to = [
               break;
             }
           }
-        } else if (url.match(url_status)) {
+        } else if ((function () {
+            for (const status in url_status) {
+              if (url.match(status)) return true;
+            }
+          })()) {
           realTarget.addEventListener('readystatechange', () => {
             if (realTarget.readyState === 4 && realTarget.status === 200) {
               const status = JSON.parse(realTarget.response);
