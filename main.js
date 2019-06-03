@@ -170,7 +170,7 @@ const url_replace_to = [
             }
           }
         } else if ((function () {
-            for (const status in url_status) {
+            for (const status of url_status) {
               if (url.match(status)) return true;
             }
           })()) {
