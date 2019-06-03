@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               Bilibili 港澳台
 // @namespace          http://kghost.info/
-// @version            0.6
+// @version            0.7
 // @description:       Remove area restriction
 // @description:zh-CN  解除区域限制
 // @supportURL         https://github.com/kghost/bilibili-area-limit
