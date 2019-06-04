@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               Bilibili 港澳台
 // @namespace          http://kghost.info/
-// @version            0.7
+// @version            0.8
 // @description:       Remove area restriction
 // @description:zh-CN  解除区域限制
 // @supportURL         https://github.com/kghost/bilibili-area-limit
@@ -19,13 +19,13 @@ const url_play = /^https:\/\/api\.bilibili\.com\/pgc\/player\/web\/playurl\?.*/;
 
 const url_replace_www = /^https:\/\/www\.bilibili\.com\//;
 const url_replace_www_to = {
-  'hk': 'https://bilibili-www.kghost.info/',
+  'hk': 'https://bilibili-hk-www.kghost.info/',
   'tw': 'https://bilibili-tw-www.kghost.info/',
 };
 
 const url_replace = /^https:\/\/api\.bilibili\.com\//;
 const url_replace_to = [
-  [/僅.*港.*地區/, 'https://bilibili-api.kghost.info/'],
+  [/僅.*港.*地區/, 'https://bilibili-hk-api.kghost.info/'],
   [/僅.*台.*地區/, 'https://bilibili-tw-api.kghost.info/'],
 ];
 
