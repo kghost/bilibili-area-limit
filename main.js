@@ -7,6 +7,7 @@
 // @supportURL         https://github.com/kghost/bilibili-area-limit
 // @author             zealot0630
 // @include            https://www.bilibili.com/*
+// @include            https://www.bilibili.com/
 // @run-at document-start
 // @description Bilibili 港澳台, 解除区域限制
 // ==/UserScript==
