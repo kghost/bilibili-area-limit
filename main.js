@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               Bilibili 港澳台
 // @namespace          http://kghost.info/
-// @version            0.8
+// @version            0.9
 // @description:       Remove area restriction
 // @description:zh-CN  解除区域限制
 // @supportURL         https://github.com/kghost/bilibili-area-limit
@@ -78,7 +78,7 @@ const url_replace_to = [
 
   class FunctionHandler extends FunctionHandlerBase {
     call(fn, proxy, target, argumentsList) {
-      fn.apply(target, argumentsList);
+      return fn.apply(target, argumentsList);
     }
   }
 
