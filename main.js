@@ -1,15 +1,19 @@
+// @grant       GM_notification
 // ==UserScript==
 // @name               Bilibili 港澳台
 // @namespace          http://kghost.info/
-// @version            1.0
+// @version            1.0.1
 // @description:       Remove area restriction
-// @description:zh-CN  解除区域限制(修正大会员限制，添加国际友人看国内功能)
+// @description:zh-CN  解除区域限制 (修正大会员限制，添加国际友人看国内功能)
 // @supportURL         https://github.com/kghost/bilibili-area-limit
 // @author             zealot0630
 // @include            https://*.bilibili.com/*
 // @run-at document-start
-// @description Bilibili 港澳台, 解除区域限制
+// @description Bilibili 港澳台, 解除区域限制 (修正大会员限制，添加国际友人看国内功能)
+// @grant       GM_notification
 // @grant       GM_cookie
+// @grant       GM.setValue
+// @grant       GM.getValue
 // ==/UserScript==
 
 const url_status = [
@@ -223,6 +227,22 @@ const url_replace_to = [
     new ClassHandler(XhrHandler)
   );
 
+  const showTamperMonkeyUpdate = () => {
+    GM.getValue('__area__limit__', 0).then(last => {
+      if (last > new Date().getTime() - 86400000) return;
+      if (
+        confirm('Bilibili　港澳台: 无法获取播放文件信息，请升级油猴到BETA版本')
+      ) {
+        window.open(
+          'https://chrome.google.com/webstore/detail/tampermonkey-beta/gcalenpjmijncebpfijmoaglllgpjagf',
+          '_blank'
+        );
+      } else {
+        GM.setValue('__area__limit__', new Date().getTime());
+      }
+    });
+  };
+
   (() => {
     var info = undefined;
     var fetching = false;
@@ -244,6 +264,7 @@ const url_replace_to = [
               { domain: '.bilibili.com', name: 'SESSDATA' },
               (cookies, error) => {
                 if (error) {
+                  if (error == 'not supported') showTamperMonkeyUpdate();
                   console.log('BAL: Error fetch info, not login');
                   return;
                 }
