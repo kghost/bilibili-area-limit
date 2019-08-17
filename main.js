@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               Bilibili 港澳台
 // @namespace          http://kghost.info/
-// @version            1.2
+// @version            1.2.1
 // @description:       Remove area restriction
 // @description:zh-CN  解除区域限制 (修正大会员限制，添加国际友人看国内功能)
 // @supportURL         https://github.com/kghost/bilibili-area-limit
@@ -26,7 +26,6 @@ const url_replace_to = [
     {
       www: 'https://bilibili-hk-www.kghost.info/',
       api: 'https://bilibili-hk-api.kghost.info/',
-      info: 'https://bilibili-hk-info.kghost.info/',
     },
   ],
   [
@@ -35,7 +34,14 @@ const url_replace_to = [
     {
       www: 'https://bilibili-tw-www.kghost.info/',
       api: 'https://bilibili-tw-api.kghost.info/',
-      info: 'https://bilibili-tw-info.kghost.info/',
+    },
+  ],
+  [
+    // SG
+    /仅限东南亚/,
+    {
+      www: 'https://bilibili-sg-www.kghost.info/',
+      api: 'https://bilibili-sg-api.kghost.info/',
     },
   ],
   [
@@ -44,7 +50,6 @@ const url_replace_to = [
     {
       www: 'https://bilibili-cn-www.kghost.info/',
       api: 'https://bilibili-cn-api.kghost.info/',
-      info: 'https://bilibili-cn-info.kghost.info/',
     },
   ],
 ];
