@@ -2,7 +2,7 @@
 // ==UserScript==
 // @name               Bilibili 港澳台
 // @namespace          http://kghost.info/
-// @version            1.0.1
+// @version            1.1
 // @description:       Remove area restriction
 // @description:zh-CN  解除区域限制 (修正大会员限制，添加国际友人看国内功能)
 // @supportURL         https://github.com/kghost/bilibili-area-limit
@@ -303,6 +303,21 @@ const url_replace_to = [
         return undefined;
       },
       set: v => (info = v),
+    });
+  })();
+
+  (() => {
+    var info = undefined;
+    Object.defineProperty(unsafeWindow, '__PGC_USERSTATE__', {
+      configurable: true,
+      get: () => info,
+      set: v => {
+        if (v.area_limit == 1) {
+          console.log('BAL: modify area_limit = 0');
+          v.area_limit = 0;
+        }
+        info = v;
+      },
     });
   })();
 
