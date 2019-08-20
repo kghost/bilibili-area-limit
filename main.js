@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               Bilibili 港澳台
 // @namespace          http://kghost.info/
-// @version            1.2.1
+// @version            1.3
 // @description:       Remove area restriction
 // @description:zh-CN  解除区域限制 (修正大会员限制，添加国际友人看国内功能)
 // @supportURL         https://github.com/kghost/bilibili-area-limit
@@ -9,6 +9,10 @@
 // @include            https://*.bilibili.com/*
 // @run-at document-start
 // @description Bilibili 港澳台, 解除区域限制 (修正大会员限制，添加国际友人看国内功能)
+// @grant       GM_notification
+// @grant       GM_cookie
+// @grant       GM.setValue
+// @grant       GM.getValue
 // ==/UserScript==
 
 const url_status = [
@@ -168,6 +172,8 @@ const url_replace_to = [
     get(target, prop, receiver) {
       if (prop === 'open') {
         return new Proxy(target.open, new this.open(target.open));
+      } else if (prop === 'send') {
+        return new Proxy(target.send, new this.send(target.send));
       } else if (prop === 'response' && this.overrideResponse) {
         console.log('BAL: Return hooked area limit');
         return this.overrideResponseValue;
@@ -180,6 +186,24 @@ const url_replace_to = [
     }
   }
 
+  const showTamperMonkeyUpdate = () => {
+    GM.getValue('__area__limit__', 0).then(last => {
+      if (last > new Date().getTime() - 86400000) return;
+      if (
+        confirm(
+          'Bilibili　港澳台: 无法获取播放文件信息，如果已开通大会员，请升级油猴到BETA版本'
+        )
+      ) {
+        window.open(
+          'https://chrome.google.com/webstore/detail/tampermonkey-beta/gcalenpjmijncebpfijmoaglllgpjagf',
+          '_blank'
+        );
+      } else {
+        GM.setValue('__area__limit__', new Date().getTime());
+      }
+    });
+  };
+
   let limited = false;
   XhrHandler.prototype.open = class extends FunctionHandlerBase {
     call(fn, proxy, realTarget, argumentsList) {
@@ -191,6 +215,7 @@ const url_replace_to = [
           for (const [match, to] of url_replace_to) {
             if (document.title.match(match)) {
               argumentsList[1] = url.replace(url_api_replace, to.api);
+              realTarget.hookCookie = true;
               console.log(`BAL: playurl via proxy ${to.api}.`);
               break;
             }
@@ -219,6 +244,34 @@ const url_replace_to = [
         }
       }
       return fn.apply(realTarget, argumentsList);
+    }
+  };
+
+  XhrHandler.prototype.send = class extends FunctionHandlerBase {
+    call(fn, proxy, realTarget, argumentsList) {
+      if (realTarget.hookCookie) {
+        GM_cookie.list(
+          { domain: '.bilibili.com', name: 'SESSDATA' },
+          (cookies, error) => {
+            if (error) {
+              console.log('BAL: Error fetch cookie, not login');
+              realTarget.addEventListener('readystatechange', () => {
+                if (realTarget.readyState === 4 && realTarget.status === 200) {
+                  const status = JSON.parse(realTarget.response);
+                  if (status.code == -10403) showTamperMonkeyUpdate();
+                }
+              });
+              fn.apply(realTarget, argumentsList);
+            } else {
+              console.log(`BAL: Get Cookie ${cookies}`);
+              realTarget.setRequestHeader('X-Cookie', cookies[0].value);
+              fn.apply(realTarget, argumentsList);
+            }
+          }
+        );
+      } else {
+        fn.apply(realTarget, argumentsList);
+      }
     }
   };
 
