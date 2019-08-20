@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               Bilibili 港澳台
 // @namespace          http://kghost.info/
-// @version            1.3
+// @version            1.3.1
 // @description:       Remove area restriction
 // @description:zh-CN  解除区域限制 (修正大会员限制，添加国际友人看国内功能)
 // @supportURL         https://github.com/kghost/bilibili-area-limit
@@ -26,7 +26,7 @@ const url_www_replace = /^https:\/\/www\.bilibili\.com\//;
 const url_replace_to = [
   [
     // HK
-    /僅.*港.*地區/,
+    [/僅.*港/],
     {
       www: 'https://bilibili-hk-www.kghost.info/',
       api: 'https://bilibili-hk-api.kghost.info/',
@@ -34,7 +34,7 @@ const url_replace_to = [
   ],
   [
     // TW
-    /僅.*台.*地區/,
+    [/僅.*台/],
     {
       www: 'https://bilibili-tw-www.kghost.info/',
       api: 'https://bilibili-tw-api.kghost.info/',
@@ -42,7 +42,7 @@ const url_replace_to = [
   ],
   [
     // SG
-    /仅限东南亚/,
+    [/仅限东南亚/],
     {
       www: 'https://bilibili-sg-www.kghost.info/',
       api: 'https://bilibili-sg-api.kghost.info/',
@@ -50,7 +50,7 @@ const url_replace_to = [
   ],
   [
     // CN
-    /^((?!僅).)*$/,
+    [/^((?!僅).)*$/],
     {
       www: 'https://bilibili-cn-www.kghost.info/',
       api: 'https://bilibili-cn-api.kghost.info/',
@@ -212,8 +212,14 @@ const url_replace_to = [
 
       if (method === 'GET') {
         if (limited && url.match(url_play)) {
-          for (const [match, to] of url_replace_to) {
-            if (document.title.match(match)) {
+          for (const [regs, to] of url_replace_to) {
+            function any() {
+              for (const reg of regs) {
+                if (document.title.match(reg)) return true;
+              }
+              return false;
+            }
+            if (any()) {
               argumentsList[1] = url.replace(url_api_replace, to.api);
               realTarget.hookCookie = true;
               console.log(`BAL: playurl via proxy ${to.api}.`);
