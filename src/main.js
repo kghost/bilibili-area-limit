@@ -1,64 +1,6 @@
-// ==UserScript==
-// @name               Bilibili 港澳台
-// @namespace          http://kghost.info/
-// @version            1.3.1
-// @description:       Remove area restriction
-// @description:zh-CN  解除区域限制 (修正大会员限制，添加国际友人看国内功能)
-// @supportURL         https://github.com/kghost/bilibili-area-limit
-// @author             zealot0630
-// @include            https://*.bilibili.com/*
-// @run-at document-start
-// @description Bilibili 港澳台, 解除区域限制 (修正大会员限制，添加国际友人看国内功能)
-// @grant       GM_notification
-// @grant       GM_cookie
-// @grant       GM.setValue
-// @grant       GM.getValue
-// ==/UserScript==
+import { url_status, url_play, url_api_replace,url_www_replace, url_replace_to } from "./url"
 
-const url_status = [
-  /^https:\/\/bangumi\.bilibili\.com\/view\/web_api\/season\/user\/status\?.*/,
-  /^https:\/\/api\.bilibili\.com\/pgc\/view\/web\/season\/user\/status\?.*/,
-];
-const url_play = /^https:\/\/api\.bilibili\.com\/pgc\/player\/web\/playurl\?.*/;
-
-const url_api_replace = /^https:\/\/api\.bilibili\.com\//;
-const url_www_replace = /^https:\/\/www\.bilibili\.com\//;
-const url_replace_to = [
-  [
-    // HK
-    [/僅.*港/],
-    {
-      www: 'https://bilibili-hk-www.kghost.info/',
-      api: 'https://bilibili-hk-api.kghost.info/',
-    },
-  ],
-  [
-    // TW
-    [/僅.*台/],
-    {
-      www: 'https://bilibili-tw-www.kghost.info/',
-      api: 'https://bilibili-tw-api.kghost.info/',
-    },
-  ],
-  [
-    // SG
-    [/仅限东南亚/],
-    {
-      www: 'https://bilibili-sg-www.kghost.info/',
-      api: 'https://bilibili-sg-api.kghost.info/',
-    },
-  ],
-  [
-    // CN
-    [/^((?!僅).)*$/],
-    {
-      www: 'https://bilibili-cn-www.kghost.info/',
-      api: 'https://bilibili-cn-api.kghost.info/',
-    },
-  ],
-];
-
-(function(XMLHttpRequest) {
+(function (XMLHttpRequest) {
   class ClassHandler {
     constructor(proxy) {
       this.proxy = proxy;
@@ -227,7 +169,7 @@ const url_replace_to = [
             }
           }
         } else if (
-          (function() {
+          (function () {
             for (const status of url_status) {
               if (url.match(status)) return true;
             }
@@ -310,7 +252,7 @@ const url_replace_to = [
         const xhr = new XMLHttpRequest();
         const url = window.location.href.replace(url_www_replace, loc.www);
         xhr.open('HEAD', url);
-        xhr.onreadystatechange = function() {
+        xhr.onreadystatechange = function () {
           if (this.readyState === xhr.DONE && this.status === 204) {
             console.log(`BAL: Redirected to ${loc.www}.`);
             window.location = xhr.getResponseHeader('X-Location');
@@ -321,3 +263,4 @@ const url_replace_to = [
     }
   });
 })(XMLHttpRequest);
+
