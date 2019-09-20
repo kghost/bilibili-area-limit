@@ -1,11 +1,11 @@
 const path = require('path');
 const webpack = require('webpack');
 
-const UserScript =`
+const UserScript = `
 // ==UserScript==
 // @name               Bilibili 港澳台
 // @namespace          http://kghost.info/
-// @version            1.3.1
+// @version            1.3.2
 // @description:       Remove area restriction
 // @description:zh-CN  解除区域限制 (修正大会员限制，添加国际友人看国内功能)
 // @supportURL         https://github.com/kghost/bilibili-area-limit
@@ -18,20 +18,20 @@ const UserScript =`
 // @grant       GM.setValue
 // @grant       GM.getValue
 // ==/UserScript==
-`
+`;
 
 module.exports = {
   entry: './src/main.js',
   devtool: 'source-map',
-  mode: "development",
+  mode: 'development',
   output: {
     path: path.resolve(__dirname, '../dist'),
-    filename: 'bundle.js'
+    filename: 'bundle.js',
   },
   plugins: [
     new webpack.BannerPlugin({
       banner: UserScript,
-      raw: true
-    })
-  ]
+      raw: true,
+    }),
+  ],
 };

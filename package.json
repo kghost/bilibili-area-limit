@@ -5,7 +5,7 @@
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build":"webpack --config ./misc/webpack.config.js"
+    "build": "webpack --config ./misc/webpack.config.js"
   },
   "repository": {
     "type": "git",
@@ -18,8 +18,9 @@
     "url": "https://github.com/kghost/bilibili-area-limit/issues"
   },
   "homepage": "https://github.com/kghost/bilibili-area-limit#readme",
-  "dependencies": {
-    "webpack": "^4.39.3",
-    "webpack-cli": "^3.3.8"
+  "dependencies": {},
+  "devDependencies": {
+    "webpack": "^4.40.2",
+    "webpack-cli": "^3.3.9"
   }
 }

@@ -2,7 +2,7 @@
 // ==UserScript==
 // @name               Bilibili 港澳台
 // @namespace          http://kghost.info/
-// @version            1.3.1
+// @version            1.3.2
 // @description:       Remove area restriction
 // @description:zh-CN  解除区域限制 (修正大会员限制，添加国际友人看国内功能)
 // @supportURL         https://github.com/kghost/bilibili-area-limit
@@ -116,7 +116,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _url__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./url */ "./src/url.js");
 
 
-(function (XMLHttpRequest) {
+(function(XMLHttpRequest) {
   class ClassHandler {
     constructor(proxy) {
       this.proxy = proxy;
@@ -285,7 +285,7 @@ __webpack_require__.r(__webpack_exports__);
             }
           }
         } else if (
-          (function () {
+          (function() {
             for (const status of _url__WEBPACK_IMPORTED_MODULE_0__["url_status"]) {
               if (url.match(status)) return true;
             }
@@ -365,10 +365,11 @@ __webpack_require__.r(__webpack_exports__);
       // try load via proxy
       console.log('BAL: Load failed, try use proxy');
       for (const [u, loc] of _url__WEBPACK_IMPORTED_MODULE_0__["url_replace_to"]) {
-        const xhr = new XMLHttpRequest();
+        const xhr = new unsafeWindow.XMLHttpRequest();
         const url = window.location.href.replace(_url__WEBPACK_IMPORTED_MODULE_0__["url_www_replace"], loc.www);
         xhr.open('HEAD', url);
-        xhr.onreadystatechange = function () {
+        xhr.hookCookie = true;
+        xhr.onreadystatechange = function() {
           if (this.readyState === xhr.DONE && this.status === 204) {
             console.log(`BAL: Redirected to ${loc.www}.`);
             window.location = xhr.getResponseHeader('X-Location');
@@ -379,7 +380,6 @@ __webpack_require__.r(__webpack_exports__);
     }
   });
 })(XMLHttpRequest);
-
 
 
 /***/ }),
@@ -442,6 +442,7 @@ const url_replace_to = [
     },
   ],
 ];
+
 
 /***/ })
 

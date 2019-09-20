@@ -1,6 +1,12 @@
-import { url_status, url_play, url_api_replace,url_www_replace, url_replace_to } from "./url"
+import {
+  url_status,
+  url_play,
+  url_api_replace,
+  url_www_replace,
+  url_replace_to,
+} from './url';
 
-(function (XMLHttpRequest) {
+(function(XMLHttpRequest) {
   class ClassHandler {
     constructor(proxy) {
       this.proxy = proxy;
@@ -169,7 +175,7 @@ import { url_status, url_play, url_api_replace,url_www_replace, url_replace_to }
             }
           }
         } else if (
-          (function () {
+          (function() {
             for (const status of url_status) {
               if (url.match(status)) return true;
             }
@@ -249,10 +255,11 @@ import { url_status, url_play, url_api_replace,url_www_replace, url_replace_to }
       // try load via proxy
       console.log('BAL: Load failed, try use proxy');
       for (const [u, loc] of url_replace_to) {
-        const xhr = new XMLHttpRequest();
+        const xhr = new unsafeWindow.XMLHttpRequest();
         const url = window.location.href.replace(url_www_replace, loc.www);
         xhr.open('HEAD', url);
-        xhr.onreadystatechange = function () {
+        xhr.hookCookie = true;
+        xhr.onreadystatechange = function() {
           if (this.readyState === xhr.DONE && this.status === 204) {
             console.log(`BAL: Redirected to ${loc.www}.`);
             window.location = xhr.getResponseHeader('X-Location');
@@ -263,4 +270,3 @@ import { url_status, url_play, url_api_replace,url_www_replace, url_replace_to }
     }
   });
 })(XMLHttpRequest);
-
