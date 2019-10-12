@@ -1,10 +1,4 @@
-import {
-  url_status,
-  url_play,
-  url_api_replace,
-  url_www_replace,
-  url_replace_to,
-} from './url';
+import { url_status, url_play, url_api_replace, url_replace_to } from './url';
 
 (function(XMLHttpRequest) {
   class ClassHandler {
@@ -254,15 +248,17 @@ import {
     if (document.querySelector('div.error-body')) {
       // try load via proxy
       console.log('BAL: Load failed, try use proxy');
+      const avid = /\/av(\d*)$/gm.exec(window.location.pathname)[1];
       for (const [u, loc] of url_replace_to) {
+        const detail = loc.api + 'x/web-interface/view/detail?aid=' + avid;
         const xhr = new unsafeWindow.XMLHttpRequest();
-        const url = window.location.href.replace(url_www_replace, loc.www);
-        xhr.open('HEAD', url);
+        xhr.open('GET', detail);
         xhr.hookCookie = true;
         xhr.onreadystatechange = function() {
-          if (this.readyState === xhr.DONE && this.status === 204) {
-            console.log(`BAL: Redirected to ${loc.www}.`);
-            window.location = xhr.getResponseHeader('X-Location');
+          if (this.readyState === xhr.DONE && this.status === 200) {
+            const r = JSON.parse(this.responseText).data.View.redirect_url;
+            console.log(`BAL: Redirected to ${r}.`);
+            window.location = r;
           }
         };
         xhr.send();

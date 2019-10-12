@@ -6,7 +6,7 @@ const UserScript = `
 // ==UserScript==
 // @name               Bilibili 港澳台
 // @namespace          http://kghost.info/
-// @version            1.3.3
+// @version            1.3.4
 // @description:       Remove area restriction
 // @description:zh-CN  解除区域限制 (修正大会员限制，添加国际友人看国内功能)
 // @supportURL         https://github.com/kghost/bilibili-area-limit
@@ -30,12 +30,6 @@ module.exports = {
     filename: 'bundle.js',
   },
   plugins: [
-    new MinifyPlugin(
-      {},
-      {
-        comments: false,
-      }
-    ),
     new webpack.BannerPlugin({
       banner: UserScript,
       raw: true,
