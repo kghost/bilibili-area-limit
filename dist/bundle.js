@@ -2,7 +2,7 @@
 // ==UserScript==
 // @name               Bilibili 港澳台
 // @namespace          http://kghost.info/
-// @version            1.3.4
+// @version            1.3.5
 // @description:       Remove area restriction
 // @description:zh-CN  解除区域限制 (修正大会员限制，添加国际友人看国内功能)
 // @supportURL         https://github.com/kghost/bilibili-area-limit
@@ -364,7 +364,7 @@ __webpack_require__.r(__webpack_exports__);
     if (document.querySelector('div.error-body')) {
       // try load via proxy
       console.log('BAL: Load failed, try use proxy');
-      const avid = /\/av(\d*)$/gm.exec(window.location.pathname)[1];
+      const avid = /\/av(\d*)/gm.exec(window.location.pathname)[1];
       for (const [u, loc] of _url__WEBPACK_IMPORTED_MODULE_0__["url_replace_to"]) {
         const detail = loc.api + 'x/web-interface/view/detail?aid=' + avid;
         const xhr = new unsafeWindow.XMLHttpRequest();

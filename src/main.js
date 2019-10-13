@@ -248,7 +248,7 @@ import { url_status, url_play, url_api_replace, url_replace_to } from './url';
     if (document.querySelector('div.error-body')) {
       // try load via proxy
       console.log('BAL: Load failed, try use proxy');
-      const avid = /\/av(\d*)$/gm.exec(window.location.pathname)[1];
+      const avid = /\/av(\d*)/gm.exec(window.location.pathname)[1];
       for (const [u, loc] of url_replace_to) {
         const detail = loc.api + 'x/web-interface/view/detail?aid=' + avid;
         const xhr = new unsafeWindow.XMLHttpRequest();
