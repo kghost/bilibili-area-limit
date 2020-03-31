@@ -9,17 +9,17 @@ export const url_api_replace = /^https:\/\/api\.bilibili\.com\//;
 
 export const url_replace_to = [
   [
-    // HK
-    [/僅.*港/],
-    {
-      api: 'https://bilibili-hk-api.kghost.info/',
-    },
-  ],
-  [
     // TW
     [/僅.*台/],
     {
       api: 'https://bilibili-tw-api.kghost.info/',
+    },
+  ],
+  [
+    // HK
+    [/僅.*港/],
+    {
+      api: 'https://bilibili-hk-api.kghost.info/',
     },
   ],
   [
