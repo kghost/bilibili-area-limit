@@ -1,6 +1,6 @@
 import { url_status, url_play, url_api_replace, url_replace_to } from './url';
 
-(function(XMLHttpRequest) {
+(function (XMLHttpRequest) {
   class ClassHandler {
     constructor(proxy) {
       this.proxy = proxy;
@@ -129,7 +129,7 @@ import { url_status, url_play, url_api_replace, url_replace_to } from './url';
   }
 
   const showTamperMonkeyUpdate = () => {
-    GM.getValue('__area__limit__', 0).then(last => {
+    GM.getValue('__area__limit__', 0).then((last) => {
       if (last > new Date().getTime() - 86400000) return;
       if (
         confirm(
@@ -169,7 +169,7 @@ import { url_status, url_play, url_api_replace, url_replace_to } from './url';
             }
           }
         } else if (
-          (function() {
+          (function () {
             for (const status of url_status) {
               if (url.match(status)) return true;
             }
@@ -233,7 +233,7 @@ import { url_status, url_play, url_api_replace, url_replace_to } from './url';
     Object.defineProperty(unsafeWindow, '__PGC_USERSTATE__', {
       configurable: true,
       get: () => info,
-      set: v => {
+      set: (v) => {
         if (v.area_limit == 1) {
           console.log('BAL: modify area_limit = 0');
           limited = true;
@@ -248,13 +248,13 @@ import { url_status, url_play, url_api_replace, url_replace_to } from './url';
     if (document.querySelector('div.error-body')) {
       // try load via proxy
       console.log('BAL: Load failed, try use proxy');
-      const avid = /\/av(\d*)/gm.exec(window.location.pathname)[1];
+      const vid = /\/(BV[^?#]*)$/gm.exec(window.location.pathname)[1];
       for (const [u, loc] of url_replace_to) {
-        const detail = loc.api + 'x/web-interface/view/detail?aid=' + avid;
+        const detail = loc.api + 'x/web-interface/view/detail?bvid=' + vid;
         const xhr = new unsafeWindow.XMLHttpRequest();
         xhr.open('GET', detail);
         xhr.hookCookie = true;
-        xhr.onreadystatechange = function() {
+        xhr.onreadystatechange = function () {
           if (this.readyState === xhr.DONE && this.status === 200) {
             const r = JSON.parse(this.responseText).data.View.redirect_url;
             console.log(`BAL: Redirected to ${r}.`);

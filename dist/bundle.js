@@ -2,7 +2,7 @@
 // ==UserScript==
 // @name               Bilibili 港澳台
 // @namespace          http://kghost.info/
-// @version            1.3.6
+// @version            1.3.7
 // @description:       Remove area restriction
 // @description:zh-CN  解除区域限制 (修正大会员限制，添加国际友人看国内功能)
 // @supportURL         https://github.com/kghost/bilibili-area-limit
@@ -116,7 +116,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _url__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./url */ "./src/url.js");
 
 
-(function(XMLHttpRequest) {
+(function (XMLHttpRequest) {
   class ClassHandler {
     constructor(proxy) {
       this.proxy = proxy;
@@ -245,7 +245,7 @@ __webpack_require__.r(__webpack_exports__);
   }
 
   const showTamperMonkeyUpdate = () => {
-    GM.getValue('__area__limit__', 0).then(last => {
+    GM.getValue('__area__limit__', 0).then((last) => {
       if (last > new Date().getTime() - 86400000) return;
       if (
         confirm(
@@ -285,7 +285,7 @@ __webpack_require__.r(__webpack_exports__);
             }
           }
         } else if (
-          (function() {
+          (function () {
             for (const status of _url__WEBPACK_IMPORTED_MODULE_0__["url_status"]) {
               if (url.match(status)) return true;
             }
@@ -349,7 +349,7 @@ __webpack_require__.r(__webpack_exports__);
     Object.defineProperty(unsafeWindow, '__PGC_USERSTATE__', {
       configurable: true,
       get: () => info,
-      set: v => {
+      set: (v) => {
         if (v.area_limit == 1) {
           console.log('BAL: modify area_limit = 0');
           limited = true;
@@ -364,13 +364,13 @@ __webpack_require__.r(__webpack_exports__);
     if (document.querySelector('div.error-body')) {
       // try load via proxy
       console.log('BAL: Load failed, try use proxy');
-      const avid = /\/av(\d*)/gm.exec(window.location.pathname)[1];
+      const vid = /\/(BV[^?#]*)$/gm.exec(window.location.pathname)[1];
       for (const [u, loc] of _url__WEBPACK_IMPORTED_MODULE_0__["url_replace_to"]) {
-        const detail = loc.api + 'x/web-interface/view/detail?aid=' + avid;
+        const detail = loc.api + 'x/web-interface/view/detail?bvid=' + vid;
         const xhr = new unsafeWindow.XMLHttpRequest();
         xhr.open('GET', detail);
         xhr.hookCookie = true;
-        xhr.onreadystatechange = function() {
+        xhr.onreadystatechange = function () {
           if (this.readyState === xhr.DONE && this.status === 200) {
             const r = JSON.parse(this.responseText).data.View.redirect_url;
             console.log(`BAL: Redirected to ${r}.`);
