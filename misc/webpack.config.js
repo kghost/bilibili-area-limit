@@ -6,14 +6,12 @@ const UserScript = `
 // ==UserScript==
 // @name               Bilibili 港澳台
 // @namespace          http://kghost.info/
-// @version            1.3.8
-// @description:       Remove area restriction
-// @description:zh-CN  解除区域限制 (修正大会员限制，添加国际友人看国内功能)
+// @version            1.3.9
+// @description        解除区域限制 (修正大会员限制，添加国际友人看国内功能)
 // @supportURL         https://github.com/kghost/bilibili-area-limit
 // @author             zealot0630
 // @include            https://*.bilibili.com/*
 // @run-at document-start
-// @description Bilibili 港澳台, 解除区域限制 (修正大会员限制，添加国际友人看国内功能)
 // @grant       GM_notification
 // @grant       GM_cookie
 // @grant       GM.setValue

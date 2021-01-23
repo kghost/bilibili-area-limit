@@ -300,7 +300,7 @@ import { url_play, url_api_replace, url_replace_to } from './url';
       console.log('BAL: Load failed, try use proxy');
       const vid = /\/(BV[^?#]*)$/gm.exec(window.location.pathname)[1];
       for (const [u, loc] of url_replace_to) {
-        const detail = loc.api + 'x/web-interface/view/detail?bvid=' + vid;
+        const detail = loc.api(undefined, 'https:') + 'x/web-interface/view/detail?bvid=' + vid;
         const xhr = new unsafeWindow.XMLHttpRequest();
         xhr.open('GET', detail);
         xhr.hookCookie = true;
